@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LeaderBoard</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            background-color: #000; /* Black background */
+            color: #fff; /* White text */
+            font-family: Arial, sans-serif; /* Font styling */
+            margin: 0; /* Remove default margins */
+            padding: 0; /* Remove default padding */
+            display: flex; /* Center the canvas */
+            justify-content: center;
+            align-items: center;
+            height: 100vh; /* Full viewport height */
+        }
+        canvas {
+            max-width: 100%; /* Ensure it scales responsively */
+            height: auto; /* Maintain aspect ratio */
+        }
+    </style>
+</head>
+<body>
+    <canvas id="scoreChart"></canvas>
+
+    <script>
+        // Get scores and team names from Django template
+        const scores = [
+            {% for tm in teams %}
+                {{ tm.score }},
+            {% endfor %}
+        ];
+
+        const teamNames = [
+            {% for tm in teams %}
+                '{{ tm.team_name }}',
+            {% endfor %}
+        ];
+
+        // Initialize the Chart.js chart
+        const ctx = document.getElementById('scoreChart').getContext('2d');
+        const scoreChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: teamNames,
+                datasets: [{
+                    label: 'Scores',
+                    data: scores,
+                    backgroundColor: 'rgba(0, 255, 0, 0.2)', /* Light green bars */
+                    borderColor: 'rgba(0, 255, 0, 1)', /* Green border */
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true, /* Make the chart responsive */
+                maintainAspectRatio: false, /* Allow resizing */
+                plugins: {
+                    legend: {
+                        labels: {
+                            color: '#fff', /* White legend text */
+                            font: {
+                                size: 16 /* Increase legend font size */
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    x: {
+                        ticks: {
+                            color: '#fff', /* White x-axis labels */
+                            font: {
+                                size: 14 /* Increase x-axis label font size */
+                            }
+                        },
+                        title: {
+                            display: true,
+                            text: 'Teams',
+                            color: '#fff', /* White x-axis title */
+                            font: {
+                                size: 18 /* Increase x-axis title font size */
+                            }
+                        }
+                    },
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            color: '#fff', /* White y-axis labels */
+                            font: {
+                                size: 14 /* Increase y-axis label font size */
+                            }
+                        },
+                        title: {
+                            display: true,
+                            text: 'Scores',
+                            color: '#fff', /* White y-axis title */
+                            font: {
+                                size: 18 /* Increase y-axis title font size */
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>

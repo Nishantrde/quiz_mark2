@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block title %}
+    <title>Terminal Theme Website</title>
+{% endblock %}
+{% block style %}
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">    
+{% endblock %}
+
+{% block body %}
+<body>
+    <div class="container">
+        
+         <h1 id="title1"></h1>
+         <div class="terminal-box">
+            <div class="text-center upload-btn">
+                <form action="r1">
+                    
+                    <input type="hidden" name="id" value="0">
+                <button class="btn btn-success">START</button>
+            </form>
+            </div></div>
+     </div>
+</body>
+{% endblock %}
+
+{% block js %}
+{% load static %}
+<script src="{% static 'js/type.js' %}"></script>
+{% endblock %}

@@ -1,0 +1,91 @@
+{% extends "base.html" %}
+
+{% block title %}
+    <title>Terminal Theme Website</title>
+{% endblock %}
+
+{% block style %}
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #050c0f; /* Dark background */
+            font-family: "Courier New", Courier, monospace; /* Terminal-like font */
+        }
+        .wrapper {
+            border: 3px solid #05f715; /* Bright green border */
+            padding: 40px; /* Padding inside the border */
+            box-sizing: border-box;
+            text-align: center;
+            background-color: #000; /* Black background for the wrapper */
+            border-radius: 10px;
+            box-shadow: 0px 0px 15px 0px #05f715; /* Green shadow effect */
+        }
+        .container {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr); /* 5 columns */
+            gap: 40px; /* gap between items */
+        }
+        .container form {
+            margin: 0;
+        }
+        .wrapper button {
+            width: 100%;
+            height: 100%;
+            padding: 10px;
+            font-size: 25px;
+            background-color: #4CAF50; /* Green button background */
+            color: white; /* White text */
+            border: none; /* Remove button border */
+            border-radius: 10px; /* Rounded corners */
+            cursor: pointer; /* Pointer cursor on hover */
+            transition: background-color 0.3s ease, transform 0.3s ease; /* Smooth transitions */
+        }
+        .wrapper button:hover {
+            background-color: #45a049; /* Darker green on hover */
+            transform: scale(1.05); /* Slightly enlarge button on hover */
+        }
+        h1, h2 {
+            color: #05f715; /* Green text color */
+        }
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 20px;
+        }
+        h2 {
+            font-size: 2em;
+            margin-bottom: 10px;
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+<body>
+    
+    <div class="wrapper" id="wrapper">
+    <form action="/r1" method="post">
+        {% csrf_token %}
+        <h2>{{team}}</h2>
+        <h1>{{msg}}</h1>
+        <input type="checkbox" name="right" id="right">
+        <label for="right">Correct</label>
+        <input type="checkbox" name="wrong" id="wrong">
+        <label for="wrong">wrong</label>
+        <input type="checkbox" name="pass" id="pass">
+        <label for="pass">Pass</label>
+        <input type="hidden" name="inpt" value="{{inpt}}">
+        <input type="hidden" name="type" value="{{type}}">
+        <input type="hidden" name="team" value="{{team}}">
+        <button name="msg" value="{{inf}}">{{btn}}</button>
+    </form>
+    </div>
+    
+    
+</body>
+{% endblock %}
