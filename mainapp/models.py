@@ -1,5 +1,5 @@
 from django.db import models
-from django.contrib.postgres.fields import ArrayField
+from django import forms
 
 class Team(models.Model):
     team_name = models.CharField(max_length = 15)
@@ -8,6 +8,11 @@ class Team(models.Model):
     score = models.IntegerField(default=0)
     def __str__(self):
         return self.team_name
+
+class TeamForm(forms.ModelForm):
+    class Meta:
+        model = Team
+        fields = ['team_name', 'team_id', 'qualified', 'score']
 
 class Quset(models.Model):
     quest_name = models.CharField(max_length = 20)

@@ -6,6 +6,18 @@ def index(request):
 
     return render(request, "index.html")
 
+def team_list(request):
+    teams = Team.objects.all()
+
+    if request.method == "POST":
+        if request.POST.get("scr"):
+            tm = Team.objects.get(team_id = request.POST.get("tmid"))
+            tm.score = request.POST.get("scr")
+            tm.save()
+            teams = Team.objects.all()
+
+    return render(request, 'team_list.html', {'teams': teams})
+    
 def round1(request):
     if request.method == "POST":
         if request.POST.get("inpt") == "ans1":
