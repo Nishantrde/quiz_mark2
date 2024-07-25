@@ -5,26 +5,35 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LeaderBoard</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
     <style>
         body {
-            background-color: #000; /* Black background */
-            color: #fff; /* White text */
-            font-family: Arial, sans-serif; /* Font styling */
-            margin: 0; /* Remove default margins */
-            padding: 0; /* Remove default padding */
-            display: flex; /* Center the canvas */
+            background: linear-gradient(135deg, #1f1c2c, #928dab); /* Gradient background */
+            color: #fff;
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh; /* Full viewport height */
+            overflow: hidden; /* Hide overflow */
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            height: 100vh; /* Full viewport height */
         }
         canvas {
-            max-width: 100%; /* Ensure it scales responsively */
-            height: auto; /* Maintain aspect ratio */
+            width: 100% !important; /* Full width */
+            height: 100% !important; /* Full height */
         }
     </style>
 </head>
 <body>
-    <canvas id="scoreChart"></canvas>
+    <div class="chart-container">
+        <canvas id="scoreChart"></canvas>
+    </div>
 
     <script>
         // Get scores and team names from Django template
@@ -49,60 +58,73 @@
                 datasets: [{
                     label: 'Scores',
                     data: scores,
-                    backgroundColor: 'rgba(0, 255, 0, 0.2)', /* Light green bars */
+                    backgroundColor: 'rgba(0, 255, 0, 0.6)', /* Light green bars */
                     borderColor: 'rgba(0, 255, 0, 1)', /* Green border */
                     borderWidth: 1
                 }]
             },
             options: {
-                responsive: true, /* Make the chart responsive */
-                maintainAspectRatio: false, /* Allow resizing */
+                responsive: true,
+                maintainAspectRatio: false,
                 plugins: {
                     legend: {
                         labels: {
-                            color: '#fff', /* White legend text */
+                            color: '#fff',
                             font: {
-                                size: 16 /* Increase legend font size */
+                                size: 24 /* Increase legend font size */
                             }
+                        }
+                    },
+                    datalabels: {
+                        color: '#fff',
+                        anchor: 'end',
+                        align: 'end',
+                        font: {
+                            size: 20,
+                            weight: 'bold'
+                        },
+                        formatter: function(value, context) {
+                            return context.chart.data.labels[context.dataIndex] + ': ' + value;
                         }
                     }
                 },
                 scales: {
                     x: {
                         ticks: {
-                            color: '#fff', /* White x-axis labels */
+                            color: '#fff',
                             font: {
-                                size: 14 /* Increase x-axis label font size */
+                                size: 20 /* Increase x-axis label font size */
                             }
                         },
                         title: {
                             display: true,
                             text: 'Teams',
-                            color: '#fff', /* White x-axis title */
+                            color: '#fff',
                             font: {
-                                size: 18 /* Increase x-axis title font size */
+                                size: 24 /* Increase x-axis title font size */
                             }
                         }
                     },
                     y: {
                         beginAtZero: true,
                         ticks: {
-                            color: '#fff', /* White y-axis labels */
+                            color: '#fff',
                             font: {
-                                size: 14 /* Increase y-axis label font size */
+                                size: 20 /* Increase y-axis label font size */
                             }
                         },
                         title: {
                             display: true,
                             text: 'Scores',
-                            color: '#fff', /* White y-axis title */
+                            color: '#fff',
                             font: {
-                                size: 18 /* Increase y-axis title font size */
+                                size: 24 /* Increase y-axis title font size */
                             }
                         }
                     }
                 }
-            }
+            },
+            plugins: [ChartDataLabels]
         });
     </script>
 </body>
