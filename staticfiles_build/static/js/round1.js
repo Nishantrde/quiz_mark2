@@ -1,4 +1,4 @@
-const text1 = "Makr2 test product quiz app";
+const text1 = "Round1";
 
 let i = 0;
 const speed = 100; // Typing speed in milliseconds
