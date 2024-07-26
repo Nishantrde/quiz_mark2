@@ -18,11 +18,11 @@ def team_list(request):
 
     return render(request, 'team_list.html', {'teams': teams})
     
-def round1(request):
+def round2(request):
     if request.method == "POST":
         if request.POST.get("inpt") == "ans1":
-            info = {'msg':request.POST.get('inf'),"team":request.POST.get('team'), "btn":"Next", "inf":"qes2", "type":request.POST.get('type'), "inpt":"qes2"}
-            return render(request, "round1_ans.html", info)
+            info = {'msg':request.POST.get('msg'),"team":request.POST.get('team'), "btn":"Next", "inf":"qes2", "type":request.POST.get('type'), "inpt":"qes2"}
+            return render(request, "round2_ans.html", info)
 
         if request.POST.get("inpt") == "qes2":
             team = request.POST.get('team')
@@ -45,11 +45,11 @@ def round1(request):
             theme = request.POST.get("type")
             qes = Quset.objects.filter(quest_type = theme)[1]
             info = {"msg":qes, "team":team, "inf":qes.ans, "btn":"Ans", "inpt":"ans2", "type":qes.quest_type}
-            return render(request, "round1_quest.html", info)
+            return render(request, "round2_quest.html", info)
 
         if request.POST.get("inpt") == "ans2":
-            info = {'msg':request.POST.get('inf'), "team":request.POST.get('team'), "btn":"Next", "inf":"ret", "type":request.POST.get('type'), "inpt":"ret"}
-            return render(request, "round1_ans.html", info)
+            info = {'msg':request.POST.get('msg'), "team":request.POST.get('team'), "btn":"Next", "inf":"ret", "type":request.POST.get('type'), "inpt":"ret"}
+            return render(request, "round2_ans.html", info)
         
         if request.POST.get("inpt") == "ret":
             team = request.POST.get('team')
@@ -68,7 +68,7 @@ def round1(request):
                 tm = Team.objects.get(team_name = team)
                 tm.score -= Rounds.objects.get(round_id = 0).pass_mark
                 tm.save()
-            return redirect("/r1")
+            return redirect("/r2")
         
 
         else:
@@ -80,10 +80,10 @@ def round1(request):
             theme = request.POST.get("theme")
             qes = Quset.objects.filter(quest_type = theme)[0]
             info = {"msg":qes, "team":team, "inf":qes.ans, "btn":"Ans", "inpt":"ans1", "type":qes.quest_type}
-            return render(request, "round1_quest.html", info)
+            return render(request, "round2_quest.html", info)
     
-    
-    return render(request, "round1.html")
+    top_teams = Team.objects.filter(qualified = True).order_by('-score')[:3]
+    return render(request, "round2.html", {"top_teams":top_teams, "start":"true"})
 
 def leaderboard(request):
     info = {"teams":Team.objects.all()}
@@ -121,10 +121,11 @@ def make_quest(request):
     j = 0
     k = 0
     for i in range(21):
+        print(i)
         if k == 2:
             j += 1
             k = 0
-        quest = Quset(quest_name = f"ans this question {i}", ans = "No Answer", round = "round1", quest_type = f"type{j}")
+        quest = Quset(quest_name = f"ans this question {i}", ans = "No Answer", round = "round2", quest_type = f"type{j}")
         quest.save()
         k += 1
         

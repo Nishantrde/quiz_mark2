@@ -6,24 +6,36 @@
 
 {% block style %}
     {% load static %}
-    <link rel="stylesheet" href="{% static 'css/round1.css' %}">
+    <link rel="stylesheet" href="{% static 'css/round2.css' %}">
 {% endblock %}
 
 {% block body %}
 <body>
     <div class="title-container">
-        <h1 id="title1" class="typing">Round 1</h1>
+        <h1 id="title1" class="typing">Round 2</h1>
     </div>
     <div class="wrapper">
         <div class="container">
             {% for i in '0123456789'|make_list %}
-                <form action="r1" method="post">
+                <form action="r2" method="post">
                     {% csrf_token %}
+                    <input type="hidden" name="start" value="{{start}}">
                     <button name="theme" value="type{{ forloop.counter }}">Theme {{ forloop.counter }}</button>
                 </form>
             {% endfor %}
         </div>
     </div>
+    
+    <div class="leader-board">
+        <h2>Leader Board</h2>
+        {% for team in top_teams %}
+            <div class="team-score">
+                <span class="team-name">{{ team }}</span>
+                <span class="team-score">{{ team.score }}</span>
+            </div>
+        {% endfor %}
+    </div>
+
     <div class="lrbd">
         <form action="/lrbd">
             <button>Leader Board</button>
